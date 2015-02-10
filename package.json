@@ -1,0 +1,33 @@
+{
+  "name": "Advanced-AI-Coursework",
+  "version": "0.0.1",
+  "description": "An implementation of neural networks for a coursework.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maael/Advanced-AI-Coursework.git"
+  },
+  "keywords": [
+    "neural",
+    "network",
+    "artifical",
+    "ai"
+  ],
+  "author": "Matthew Elphick",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maael/Advanced-AI-Coursework/issues"
+  },
+  "homepage": "https://github.com/maael/Advanced-AI-Coursework",
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "mocha": "^2.1.0"
+  },
+  "dependencies": {
+    "node-ann": "0.0.1"
+  },
+  "private": true
+}
