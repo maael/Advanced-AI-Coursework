@@ -1,2 +1,2 @@
 # Advanced-AI-Coursework
-A implementation of neural networks for a coursework.
+An implementation of neural networks for a coursework.
