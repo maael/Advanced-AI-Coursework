@@ -3,19 +3,28 @@ var process = require('../data-processing/process'),
 	should = chai.should();
 describe('Coursework', function() {
 	describe('#process', function() {
+		describe('#csvParser', function() {
+			it('should extract csv from a file correctly correctly', function() {
+				var fs = require('fs'),
+					source = fs.readFileSync('data/CWData.csv').toString(),
+					data = process.csvParser(source);
+					data.should.be.length(598);
+					data.should.be.a('array');
+			});
+		});
 		describe('#extraction', function() {
 			it('should return csv as array', function() {
 				var data = process.extract({path: 'data/CWData.csv'});
 				data.should.be.an('array');
-				data[0].data.should.be.length(597);
-				data[1].data.should.be.length(597);
-				data[2].data.should.be.length(597);
-				data[3].data.should.be.length(597);
-				data[4].data.should.be.length(597);
-				data[5].data.should.be.length(597);
-				data[6].data.should.be.length(597);
-				data[7].data.should.be.length(597);
-				data[8].data.should.be.length(597);
+				data[0].should.be.length(597);
+				data[1].should.be.length(597);
+				data[2].should.be.length(597);
+				data[3].should.be.length(597);
+				data[4].should.be.length(597);
+				data[5].should.be.length(597);
+				data[6].should.be.length(597);
+				data[7].should.be.length(597);
+				data[8].should.be.length(597);
 			});
 		});
 		describe('#cleanse', function() {			

@@ -8,14 +8,12 @@ var extract = function(options) {
 		source = fs.readFileSync(options.path).toString(),
 		data = csvParser(source);
 		result = [];
-	for(var i = 0; i < data[0].length; i++) {
-		var entry = {'data': []};
-		if(options.useHeaders) entry['name'] = data[0][i];
-		result.push(entry);
-	}
+	for(var j = 0; j < data[0].length; j++) {
+		result.push([]);
+	}	
 	for(var i = 1; i < data.length; i++) {
 		for(var j = 0; j < data[i].length; j++) {
-			result[j].data.push(parseFloat(data[i][j]));
+			result[j].push(parseFloat(data[i][j]));
 		}
 	}
 	return result;

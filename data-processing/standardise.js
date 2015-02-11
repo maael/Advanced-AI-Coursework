@@ -1,4 +1,4 @@
-var standardise = function(options, callback) {
+var standardise = function(options) {
 	options = options || {};
 	options.path = options.path || '';
 	options.format = options.format || 'csv';
@@ -8,15 +8,16 @@ var standardise = function(options, callback) {
 	var cleanse = require('./cleanse'),
 		result = cleanse(options),
 		data, min, max;
-	for(var i = 1; i < result.length; i++) {
-		data = result[i].data;
+	for(var i = 0; i < result.length; i++) {
+		data = result[i];
 		max = Math.max.apply(null, data);
 		min = Math.min.apply(null, data);
-		for(var j = 0; j < data[i].length; j++) {
-			data[i][j] = standardisation(options.standardisationMethod, min, max, data[j]);
+		for(var j = 0; j < data.length; j++) {
+			result[i][j] = standardisation(options.standardisationMethod, min, max, data[j]);
 		}
 	}
-	return data;
+	// TODO - Fix this
+	return result;
 };
 function standardisation(type, min, max, value) {
 	var result;
