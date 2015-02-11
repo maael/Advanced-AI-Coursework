@@ -16,7 +16,7 @@ describe('Coursework', function() {
 		});
 		describe('#extraction', function() {
 			it('should return csv as array', function() {
-				extracted = process.extract({path: 'data/CWData.csv'}, csv);
+				extracted = process.extract({}, csv);
 				extracted.should.be.an('array');
 				for(var i = 0; i < extracted.length; i++) {
 					extracted[i].should.be.length(597);
@@ -26,7 +26,7 @@ describe('Coursework', function() {
 		describe('#cleanse', function() {			
 			it('should cleanse data of invalid types', function() {
 				var formats = ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number'];
-				cleansed = process.cleanse({path: 'data/CWData.csv', formats: formats}, extracted);
+				cleansed = process.cleanse({formats: formats}, extracted);
 				for(var i = 0; i < cleansed.length; i++) {
 					for(var j = 0; j < cleansed[i].length; j++) {
 						cleansed[i][j].should.be.a(formats[i]);
@@ -37,7 +37,7 @@ describe('Coursework', function() {
 		describe('#standardisation', function() {
 			it('should standardise between 0.1-0.9 with default method', function() {
 				var formats = ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number'];
-				standardised = process.standardise({path: 'data/CWData.csv', formats: formats}, cleansed);
+				standardised = process.standardise({formats: formats}, cleansed);
 				for(var i = 0; i < standardised.length; i++) {
 					for(var j = 0; j < standardised[i].length; j++) {
 						standardised[i][j].should.be.within(0.1, 0.9);
@@ -45,8 +45,9 @@ describe('Coursework', function() {
 				}
 			});
 			it('should standardise between 0-1 with normal method', function() {
+				/* TODO */
 				var formats = ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number'];
-				standardised = process.standardise({path: 'data/CWData.csv', formats: formats, standardiseMethod: 'normal'}, cleansed);
+				standardised = process.standardise({formats: formats, standardiseMethod: 'normal'}, cleansed);
 				for(var i = 0; i < standardised.length; i++) {
 					for(var j = 0; j < standardised[i].length; j++) {
 						standardised[i][j].should.be.within(0, 1);
@@ -54,11 +55,26 @@ describe('Coursework', function() {
 				}
 			});
 			it('should standardise between - with sum of squares method', function() {
+				/* TODO */
 				var formats = ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number'];
-				standardised = process.standardise({path: 'data/CWData.csv', formats: formats, standardiseMethod: 'ss'}, cleansed);
+				standardised = process.standardise({formats: formats, standardiseMethod: 'ss'}, cleansed);
 				for(var i = 0; i < standardised.length; i++) {
 					for(var j = 0; j < standardised[i].length; j++) {
 						standardised[i][j].should.be.within(0, 1);
+					}
+				}
+			});
+		});
+		describe('#divide', function() {
+			it('should correctly divide data into subsets', function() {
+				var splits = [60, 20, 20],
+					divided = process.divide({splits: splits}, standardised);
+				divided.should.be.an('array');
+				divided.should.be.length(3);
+				for(var i = 0; i < divided.length; i++) {
+					divided[i].should.be.length(9);
+					for(var j = 0; j < divided[i].length; j++) {
+						divided[i][j].length.should.be.closeTo((csv.length * (splits[i]/100)), 1);
 					}
 				}
 			});

@@ -15,6 +15,6 @@ var process = function(options) {
         data = standardise(options, data);
 
         return data;
-}
+};
 
 module.exports = process;
