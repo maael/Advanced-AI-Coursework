@@ -5,18 +5,18 @@ var standardise = function(options, callback) {
 	options.min = options.min || 0.1;
 	options.max = options.max || 0.9;
 	options.standardisationMethod = options.standardisationMethod || 'default';
-	var prune = require('./prune');
-	prune(options, function(result) {
-		for(var i = 1; i < result.length; i++) {
-			var data = result[i].data,
-				max = Math.max.apply(null, data),
-				min = Math.min.apply(null, data);
-				console.log();
-			for(var j = 0; j < data[i].length; j++) {
-				data[i][j] = standardisation(options.standardisationMethod, min, max, data[j]);
-			}
+	var cleanse = require('./cleanse'),
+		result = cleanse(options),
+		data, min, max;
+	for(var i = 1; i < result.length; i++) {
+		data = result[i].data;
+		max = Math.max.apply(null, data);
+		min = Math.min.apply(null, data);
+		for(var j = 0; j < data[i].length; j++) {
+			data[i][j] = standardisation(options.standardisationMethod, min, max, data[j]);
 		}
-	});
+	}
+	return data;
 };
 function standardisation(type, min, max, value) {
 	var result;

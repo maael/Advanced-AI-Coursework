@@ -1,22 +1,24 @@
-var extract = function(options, callback) {
+var extract = function(options) {
 	options = options || {};
 	options.path = options.path || '';
 	options.format = options.format || 'csv';
-	var parse = require('csv-parse'),
+	options.useHeaders = options.useHeaders || true;
+	var csvParser = require('./csvParser'),
 		fs = require('fs'),
-		source = fs.readFileSync(options.path).toString();
-	parse(source, function(err, data) {
-		var result = [];
-		for(var i = 0; i < data[0].length; i++) {
-			result.push({'name': data[0][i], 'data': []});
+		source = fs.readFileSync(options.path).toString(),
+		data = csvParser(source);
+		result = [];
+	for(var i = 0; i < data[0].length; i++) {
+		var entry = {'data': []};
+		if(options.useHeaders) entry['name'] = data[0][i];
+		result.push(entry);
+	}
+	for(var i = 1; i < data.length; i++) {
+		for(var j = 0; j < data[i].length; j++) {
+			result[j].data.push(parseFloat(data[i][j]));
 		}
-		for(var i = 1; i < data.length; i++) {
-			for(var j = 0; j < data[i].length; j++) {
-				result[j].data.push(parseFloat(data[i][j]));
-			}
-		}
-		callback(result);
-	});
+	}
+	return result;
 };
 
 module.exports = extract;

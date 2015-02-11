@@ -1,3 +1,4 @@
+exports.csvParser = require('./csvParser');
 exports.extract = require('./extract');
-exports.prune = require('./prune');
+exports.cleanse = require('./cleanse');
 exports.standardise = require('./standardise');
