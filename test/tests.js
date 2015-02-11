@@ -1,18 +1,30 @@
-var extract = require('../data-processing/extract'),
+var process = require('../data-processing/process'),
 	chai = require('chai'),
 	should = chai.should();
 describe('Coursework', function() {
-	describe('Data Preprocessing', function() {
+	describe('#process', function() {
 		describe('#extraction', function() {
 			it('should return csv as array', function() {
-				extract({path: 'data/CWData.csv'}, function(data) {
+				process.extract({path: 'data/CWData.csv'}, function(data) {
 					data.should.be.an('array');
-					data.should.be.length(598);
+					data[0].data.should.be.length(597);
+					data[1].data.should.be.length(597);
+					data[2].data.should.be.length(597);
+					data[3].data.should.be.length(597);
+					data[4].data.should.be.length(597);
+					data[5].data.should.be.length(597);
+					data[6].data.should.be.length(597);
+					data[7].data.should.be.length(597);
+					data[8].data.should.be.length(597);
 				});
-			})
+			});
 		});
 		describe('#standardisation', function() {
+			it('should standardise between 0-1', function() {
+				process.standardise({path: 'data/CWData.csv'}, function(data) {
 
+				});
+			});
 		});
 	});
 })
