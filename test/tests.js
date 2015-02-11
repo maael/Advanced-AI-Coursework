@@ -1,4 +1,5 @@
 var process = require('../data-processing/process'),
+	network = require('../network/network'),
 	chai = require('chai'),
 	should = chai.should();
 describe('Coursework', function() {
@@ -82,4 +83,13 @@ describe('Coursework', function() {
 			});
 		});
 	});
-})
+	describe('#network', function() {
+		describe('#creation', function() {
+			it('should create the network correctly', function() {
+				var net = network.create();
+				net.getLayers().should.be.length(2);
+				net.printGraph();
+			});
+		});
+	});
+});
