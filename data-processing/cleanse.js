@@ -1,25 +1,28 @@
-var cleanse = function(options, callback) {
+var cleanse = function(options, data) {
 	options = options || {};
 	options.formats = options.formats || [];
-	var extract = require('./extract'),
-		result = extract(options),
-		dataLength = result[0].length;
-	for(var i = 0; i < result.length; i++) {
+	var dataLength = data[0].length;
+	for(var i = 0; i < data.length; i++) {
 		for(var j = 0; j < dataLength; j++) {
-			if(!validate(result[i][j], options.formats[i])) {
-				result = removeRow(j, result);
+			if(!validate(data[i][j], options.formats[i])) {
+				data = removeRow(j, data);
 			}
 		}
 	}
-	return result;
+	return data;
 };
 
 function validate(value, format) {
-	return (typeof(value) === format);
+	var typeCheck = (typeof(value) === format),
+		NaNCheck = (value === value);
+	return (typeCheck && NaNCheck);
 }
 
 function removeRow(row, data) {
-
+	for(var i = 0; i < data.length; i++) {
+		data[i].splice(row, 1);
+	}
+	return data;
 }
 
 module.exports = cleanse;

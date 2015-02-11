@@ -1,23 +1,20 @@
-var standardise = function(options) {
+var standardise = function(options, data) {
 	options = options || {};
 	options.path = options.path || '';
 	options.format = options.format || 'csv';
 	options.min = options.min || 0.1;
 	options.max = options.max || 0.9;
 	options.standardisationMethod = options.standardisationMethod || 'default';
-	var cleanse = require('./cleanse'),
-		result = cleanse(options),
-		data, min, max;
-	for(var i = 0; i < result.length; i++) {
-		data = result[i];
-		max = Math.max.apply(null, data);
-		min = Math.min.apply(null, data);
-		for(var j = 0; j < data.length; j++) {
-			result[i][j] = standardisation(options.standardisationMethod, min, max, data[j]);
+	var column, min, max;
+	for(var i = 0; i < data.length; i++) {
+		column = data[i];
+		max = Math.max.apply(null, column);
+		min = Math.min.apply(null, column);
+		for(var j = 0; j < column.length; j++) {
+			data[i][j] = standardisation(options.standardisationMethod, min, max, column[j]);
 		}
 	}
-	// TODO - Fix this
-	return result;
+	return data;
 };
 function standardisation(type, min, max, value) {
 	var result;
