@@ -81,19 +81,27 @@ describe('Coursework', function() {
 		});
 		describe('#process', function() {
 			it('should correctly perform the entire data preprocessing', function() {
-				var formats = ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number'],
+				var splits = [60, 20, 20],
+					formats = ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number'],
 					test = process.process({path: 'data/CWData.csv', formats: formats});
+				test.should.be.length(splits.length);
 				for(var i = 0; i < test.length; i++) {
-					test[i].length.should.be.closeTo(597, 10);
-				}
-				for(var i = 0; i < test.length; i++) {
-					for(var j = 0; j < test[i].length; j++) {
-						test[i][j].should.be.a(formats[i]);
+					for(var j = 0; j < test.length; j++) {
+						test[i][j].length.should.be.closeTo((csv.length * (splits[i]/100)), 1);
 					}
 				}
 				for(var i = 0; i < test.length; i++) {
 					for(var j = 0; j < test[i].length; j++) {
-						test[i][j].should.be.within(0.1, 0.9);
+						for(var k = 0; k < test[i][j].length; k++) {
+							test[i][j][k].should.be.a(formats[i]);
+						}
+					}
+				}
+				for(var i = 0; i < test.length; i++) {
+					for(var j = 0; j < test[i].length; j++) {
+						for(var k = 0; k < test[i][j].length; k++) {
+							test[i][j][k].should.be.within(0.1, 0.9);
+						}
 					}
 				}
 			});

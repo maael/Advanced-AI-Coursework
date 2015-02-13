@@ -5,6 +5,7 @@ var process = function(options) {
         extract = require('./extract'),
         cleanse = require('./cleanse'),
         standardise = require('./standardise'),
+        divide = require('./divide'),
         fs = require('fs'),
         source = fs.readFileSync(options.path).toString(),
         data;
@@ -13,6 +14,7 @@ var process = function(options) {
         data = extract(options, data);
         data = cleanse(options, data);
         data = standardise(options, data);
+        data = divide(options, data);
 
         return data;
 };
