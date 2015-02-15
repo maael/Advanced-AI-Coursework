@@ -111,7 +111,7 @@ describe('Coursework', function() {
 		describe('#creation', function() {
 			it('should create the network correctly', function() {
 				var net = network.create();
-				net.getLayers().should.be.length(2);
+				net.getLayers().should.be.length(3);
 				net.printGraph();
 			});
 		});

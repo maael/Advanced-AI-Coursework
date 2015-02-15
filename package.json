@@ -27,7 +27,7 @@
     "mocha": "^2.1.0"
   },
   "dependencies": {
-    "node-ann": "0.0.2"
+    "node-ann": "0.0.3"
   },
   "private": true
 }
