@@ -20,11 +20,23 @@ var preprocess = require('./data-processing/process'),
     trainingSet = preprocessed[0],
     validationSet = preprocessed[1],
     testingSet = preprocessed[2],
-
+    setFormat = [
+        'input',
+        'input',
+        'input',
+        'input',
+        'input',
+        'input',
+        'input',
+        'input',
+        'output'
+    ]
 /* 
 * Network creation 
 */
     network = require('./network/network'),
     network = network.create();
+
+console.log(trainingSet);
 
 network.printGraph();
