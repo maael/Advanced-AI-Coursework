@@ -1,4 +1,7 @@
 # Advanced-AI-Coursework
+[![Build Status](https://img.shields.io/travis/maael/Advanced-AI-Coursework.svg)](https://travis-ci.org/maael/Advanced-AI-Coursework)
+[![Code Climate](https://img.shields.io/codeclimate/github/maael/Advanced-AI-Coursework.svg)](https://codeclimate.com/github/maael/Advanced-AI-Coursework)
+
 An implementation of neural networks for a coursework.
 
 ## Multi Layer Perceptron Network
