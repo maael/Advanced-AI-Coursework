@@ -27,7 +27,7 @@
     "mocha": "^2.1.0"
   },
   "dependencies": {
-    "node-ann": "0.0.3",
+    "node-ann": "^0.0.5",
     "node-data-preprocessing": "^1.0.1"
   },
   "private": true

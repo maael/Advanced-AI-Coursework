@@ -7,9 +7,20 @@ describe('Coursework', function() {
 		describe('#creation', function() {
 			it('should create the network correctly', function() {
 				var net = network.create();
-				net.getLayers().should.be.length(3);
-				net.printGraph();
+				net.getLayer(0).should.be.length(8);
+				net.getLayer(1).should.be.length(8);
+				net.getLayer(2).should.be.length(1);
 			});
+		});
+		describe('training', function() {
+			describe('#train', function() {
+
+			});
+		});
+		describe('testing', function() {
+			describe('#solve', function() {
+
+			});	
 		});
 	});
 });

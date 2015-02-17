@@ -2,11 +2,6 @@ var create = function() {
     var ann = require('node-ann'),
         network = new ann.ann(),
 
-        /* Network layers */
-        inputLayer = new ann.layer({type: 'input'}),
-        hiddenLayer = new ann.layer(),
-        outputLayer = new ann.layer({type: 'output'}),
-
         /* Input perceptrons */
         i1 = new ann.perceptron({id: 'i1'}),
         i2 = new ann.perceptron({id: 'i2'}),
@@ -30,35 +25,53 @@ var create = function() {
         /* Output perceptrons */
         o1 = new ann.perceptron({id: 'o1'});
 
-    /* Add input perceptrons to input layer */
-    inputLayer.addPerceptron(i1);
-    inputLayer.addPerceptron(i2);
-    inputLayer.addPerceptron(i3);
-    inputLayer.addPerceptron(i4);
-    inputLayer.addPerceptron(i5);
-    inputLayer.addPerceptron(i6);
-    inputLayer.addPerceptron(i7);
-    inputLayer.addPerceptron(i8);
+    /* Add perceptrons to network */
+    network.addPerceptron(i1);
+    network.addPerceptron(i2);
+    network.addPerceptron(i3);
+    network.addPerceptron(i4);
+    network.addPerceptron(i5);
+    network.addPerceptron(i6);
+    network.addPerceptron(i7);
+    network.addPerceptron(i8);
 
+    network.addPerceptron(h1);
+    network.addPerceptron(h2);
+    network.addPerceptron(h3);
+    network.addPerceptron(h4);
+    network.addPerceptron(h5);
+    network.addPerceptron(h6);
+    network.addPerceptron(h7);
+    network.addPerceptron(h8);
 
-    /* Add hidden perceptrons to hidden layer */
-    hiddenLayer.addPerceptron(h1);
-    hiddenLayer.addPerceptron(h2);
-    hiddenLayer.addPerceptron(h3);
-    hiddenLayer.addPerceptron(h4);
-    hiddenLayer.addPerceptron(h5);
-    hiddenLayer.addPerceptron(h6);
-    hiddenLayer.addPerceptron(h7);
-    hiddenLayer.addPerceptron(h8);
+    network.addPerceptron(o1);
 
+    /* Network layers */
+    network.addLayer([
+        'i1',
+        'i2',
+        'i3',
+        'i4',
+        'i5',
+        'i6',
+        'i7',
+        'i8'
+    ]);
 
-    /* Add output perceptrons to output layer */
-    outputLayer.addPerceptron(o1);
+    network.addLayer([
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'h7',
+        'h8'
+    ]);
 
-    /* Add layers to network */
-    network.addLayer(inputLayer);
-    network.addLayer(hiddenLayer);
-    network.addLayer(outputLayer);
+    network.addLayer([
+        'o1'
+    ]);
 
     /* Add relationships between inputs and hidden perceptrons */
     network.addWeighting({from: 'i1', to: 'h1'});
@@ -135,13 +148,13 @@ var create = function() {
 
     /* Add relationships between hidden and output perceptrons */
     network.addWeighting({from: 'h1', to: 'o1'});
-    network.addWeighting({from: 'h2', to: 'o2'});
-    network.addWeighting({from: 'h3', to: 'o3'});
-    network.addWeighting({from: 'h4', to: 'o4'});
-    network.addWeighting({from: 'h5', to: 'o5'});
-    network.addWeighting({from: 'h6', to: 'o6'});
-    network.addWeighting({from: 'h7', to: 'o7'});
-    network.addWeighting({from: 'h8', to: 'o8'});
+    network.addWeighting({from: 'h2', to: 'o1'});
+    network.addWeighting({from: 'h3', to: 'o1'});
+    network.addWeighting({from: 'h4', to: 'o1'});
+    network.addWeighting({from: 'h5', to: 'o1'});
+    network.addWeighting({from: 'h6', to: 'o1'});
+    network.addWeighting({from: 'h7', to: 'o1'});
+    network.addWeighting({from: 'h8', to: 'o1'});
 
     return network;
 }
