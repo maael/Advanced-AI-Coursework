@@ -1,6 +1,17 @@
 var create = function() {
     var ann = require('node-ann'),
-        network = new ann.ann(),
+        network = new ann.ann({
+            dataFormats: [
+                'input',
+                'input',
+                'input',
+                'input',
+                'input',
+                'input',
+                'input',
+                'output'
+            ]
+        }),
 
         /* Input perceptrons */
         i1 = new ann.perceptron({id: 'i1'}),

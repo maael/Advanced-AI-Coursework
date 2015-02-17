@@ -1,7 +1,7 @@
 /* 
 * Preprocessing 
 */
-var preprocess = require('./data-processing/process'),
+var preprocess = require('node-data-preprocessing'),
     preOptions = {
         path: 'data/CWData.csv',
         formats: [
@@ -39,4 +39,4 @@ var preprocess = require('./data-processing/process'),
 
 console.log(trainingSet);
 
-network.printGraph();
+network.train(trainingSet);
