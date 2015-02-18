@@ -1,6 +1,7 @@
+var ann = require('node-ann');
 var create = function() {
-    var ann = require('node-ann'),
-        network = new ann.ann({
+
+    var network = new ann.ann({
             dataFormats: [
                 'input',
                 'input',
@@ -168,6 +169,6 @@ var create = function() {
     network.addWeighting({from: 'h8', to: 'o1'});
 
     return network;
-}
+};
 
 module.exports = create;
