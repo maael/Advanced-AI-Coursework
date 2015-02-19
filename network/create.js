@@ -13,7 +13,7 @@ var create = function() {
                 'input',
                 'output'
             ],
-            epochs: 45942,
+            epochs: 10000,
             report: true
         }),
 

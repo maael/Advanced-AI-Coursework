@@ -21,12 +21,11 @@ var preprocess = require('node-data-preprocessing'),
     validationSet = preprocessed[1],
     testingSet = preprocessed[2],
 /* 
-* Network creation 
+* Dependencies 
 */
     network = require('./network/network'),
-    network = network.create();
-
-network.train(trainingSet);
+    network = network.create(),
+    regression = require('./linear-regression/simple');
 function getOutputlessSet(set, setNumber) {
     var example = {inputSet: [], outputSet: []};
     for(var i = 0; i < (set.length - 1); i++) {
@@ -35,11 +34,25 @@ function getOutputlessSet(set, setNumber) {
     example.outputSet.push(set[(set.length - 1)][setNumber]);
     return example;
 }
-var test, predicted, actual, errorSum = 0;
-for(var i = 0; i < testingSet[0].length; i++) {
-    test = getOutputlessSet(validationSet, 2),
-    predicted = network.solve(test.inputSet),
-    actual = test.outputSet;
-    errorSum += Math.abs(predicted - actual);
+if(process.argv.indexOf('regression') > -1) {
+    var regress = regression({}, trainingSet);
+    regress.calculate();
+    var test, predicted, actual, errorSum = 0;
+    for(var i = 0; i < testingSet[0].length; i++) {
+        test = getOutputlessSet(validationSet, 2),
+        predicted = regress.solve(test.inputSet);
+        actual = test.outputSet;
+        errorSum += Math.abs(predicted - actual);
+    }
+    console.log('Average Error: ' + (errorSum / testingSet[0].length));
+} else {
+    network.train(trainingSet);
+    var test, predicted, actual, errorSum = 0;
+    for(var i = 0; i < testingSet[0].length; i++) {
+        test = getOutputlessSet(validationSet, 2),
+        predicted = network.solve(test.inputSet),
+        actual = test.outputSet;
+        errorSum += Math.abs(predicted - actual);
+    }
+    console.log('Average Error: ' + (errorSum / testingSet[0].length));
 }
-console.log('Average Error:' + (errorSum / testingSet[0].length));
