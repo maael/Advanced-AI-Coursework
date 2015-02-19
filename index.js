@@ -39,20 +39,12 @@ if(process.argv.indexOf('regression') > -1) {
     regress.calculate();
     var test, predicted, actual, errorSum = 0;
     for(var i = 0; i < testingSet[0].length; i++) {
-        test = getOutputlessSet(validationSet, 2),
+        test = getOutputlessSet(validationSet, i),
         predicted = regress.solve(test.inputSet);
         actual = test.outputSet;
         errorSum += Math.abs(predicted - actual);
     }
     console.log('Average Error: ' + (errorSum / testingSet[0].length));
 } else {
-    network.train(trainingSet);
-    var test, predicted, actual, errorSum = 0;
-    for(var i = 0; i < testingSet[0].length; i++) {
-        test = getOutputlessSet(validationSet, 2),
-        predicted = network.solve(test.inputSet),
-        actual = test.outputSet;
-        errorSum += Math.abs(predicted - actual);
-    }
-    console.log('Average Error: ' + (errorSum / testingSet[0].length));
+    network.train(trainingSet, validationSet);
 }
