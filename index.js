@@ -46,5 +46,6 @@ if(process.argv.indexOf('regression') > -1) {
     }
     console.log('Average Error: ' + (errorSum / testingSet[0].length));
 } else {
+    network.initialise();
     network.train(trainingSet, validationSet);
 }
