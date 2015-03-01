@@ -13,9 +13,10 @@ var create = function() {
                 'input',
                 'output'
             ],
-            epochs: 11000,
+            epochs: 1000,
             report: true,
-            errorThreshold: 0.055
+            errorThreshold: 0.04,
+            log: true
         }),
 
         /* Input perceptrons */
