@@ -51,7 +51,11 @@ var create = function(options) {
     ]);
 
     network.addLayer([ 
-        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8'
+        'h1', 'h2', 'h3', 'h4'
+    ]);
+
+    network.addLayer([
+        'h5', 'h6', 'h7', 'h8'
     ]);
 
     network.addLayer([
@@ -60,8 +64,9 @@ var create = function(options) {
 
     /* Add relationships between inputs and hidden perceptrons */
     network.fullyInterconnectLayers(0, 1);
-    /* Add relationships between hidden and output perceptrons */
     network.fullyInterconnectLayers(1, 2);
+    /* Add relationships between hidden and output perceptrons */
+    network.fullyInterconnectLayers(2, 3);
     return network;
 };
 

@@ -18,8 +18,6 @@ var create = function(options) {
         h4 = new ann.perceptron({id: 'h4'}),
         h5 = new ann.perceptron({id: 'h5'}),
         h6 = new ann.perceptron({id: 'h6'}),
-        h7 = new ann.perceptron({id: 'h7'}),
-        h8 = new ann.perceptron({id: 'h8'}),
         
         /* Output perceptrons */
         o1 = new ann.perceptron({id: 'o1', type: 'output'});
@@ -40,8 +38,6 @@ var create = function(options) {
     network.addPerceptron(h4);
     network.addPerceptron(h5);
     network.addPerceptron(h6);
-    network.addPerceptron(h7);
-    network.addPerceptron(h8);
 
     network.addPerceptron(o1);
 
@@ -51,7 +47,7 @@ var create = function(options) {
     ]);
 
     network.addLayer([ 
-        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8'
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
     ]);
 
     network.addLayer([

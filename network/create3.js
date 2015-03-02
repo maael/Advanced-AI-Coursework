@@ -20,6 +20,14 @@ var create = function(options) {
         h6 = new ann.perceptron({id: 'h6'}),
         h7 = new ann.perceptron({id: 'h7'}),
         h8 = new ann.perceptron({id: 'h8'}),
+        h9 = new ann.perceptron({id: 'h9'}),
+        h10 = new ann.perceptron({id: 'h10'}),
+        h11 = new ann.perceptron({id: 'h11'}),
+        h12 = new ann.perceptron({id: 'h12'}),
+        h13 = new ann.perceptron({id: 'h13'}),
+        h14 = new ann.perceptron({id: 'h14'}),
+        h15 = new ann.perceptron({id: 'h15'}),
+        h16 = new ann.perceptron({id: 'h16'}),
         
         /* Output perceptrons */
         o1 = new ann.perceptron({id: 'o1', type: 'output'});
@@ -42,6 +50,14 @@ var create = function(options) {
     network.addPerceptron(h6);
     network.addPerceptron(h7);
     network.addPerceptron(h8);
+    network.addPerceptron(h9);
+    network.addPerceptron(h10);
+    network.addPerceptron(h11);
+    network.addPerceptron(h12);
+    network.addPerceptron(h13);
+    network.addPerceptron(h14);
+    network.addPerceptron(h15);
+    network.addPerceptron(h16);
 
     network.addPerceptron(o1);
 
@@ -55,13 +71,18 @@ var create = function(options) {
     ]);
 
     network.addLayer([
+        'h9', 'h10', 'h11', 'h12', 'h13', 'h14', 'h15', 'h16'
+    ]);
+
+    network.addLayer([
         'o1'
     ]);
 
     /* Add relationships between inputs and hidden perceptrons */
     network.fullyInterconnectLayers(0, 1);
-    /* Add relationships between hidden and output perceptrons */
     network.fullyInterconnectLayers(1, 2);
+    /* Add relationships between hidden and output perceptrons */
+    network.fullyInterconnectLayers(2, 3);
     return network;
 };
 
