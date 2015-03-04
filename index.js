@@ -47,8 +47,8 @@ var preprocess = require('node-data-preprocessing'),
             'output'
         ],
         epochs: 1000,
-        report: true,
-        errorThreshold: 0.035,
+        report: false,
+        errorThreshold: 0,
         learningStep: 0.15,
         log: true
     },
@@ -83,49 +83,58 @@ if(process.argv.indexOf('regression') > -1) {
 } else {
     var loops = (process.argv.length > 3) ? process.argv[3] : 1,
         createdNetwork,
-        learningStep = 0;
+        learningStep = 0,
+        momentum = 0;
         loopLearningStep = [],
         loopRMSE = [];
     for(var j = 0; j < loops; j++) {
-        learningStep += 0.01;
-        options.momentum = learningStep;
-        if (process.argv.indexOf('net2') > -1){
-            createdNetwork = network.create2(options);
-        } else if (process.argv.indexOf('net3') > -1){
-            createdNetwork = network.create3(options);
-        } else if (process.argv.indexOf('net4') > -1) {
-            createdNetwork = network.create4(options);
-        } else if (process.argv.indexOf('net5') > -1) {
-            createdNetwork = network.create5(options);
-        } else if (process.argv.indexOf('net6') > -1) {
-            createdNetwork = network.create6(options);
-        } else if (process.argv.indexOf('net7') > -1) {
-            createdNetwork = network.create7(options);
-        } else if (process.argv.indexOf('net8') > -1) {
-            createdNetwork = network.create8(options);
-        } else {
-            createdNetwork = network.create(options);       
+        learningStep = 0;
+        momentum += 0.01;
+        momentum = Math.round((momentum) * 1000) / 1000;
+        options.momentum = momentum;
+        for(var k = 0; k < loops; k++) {
+            learningStep += 0.01;
+            learningStep = Math.round((learningStep) * 1000) / 1000;
+            options.learningStep = learningStep;
+            if (process.argv.indexOf('net2') > -1){
+                createdNetwork = network.create2(options);
+            } else if (process.argv.indexOf('net3') > -1){
+                createdNetwork = network.create3(options);
+            } else if (process.argv.indexOf('net4') > -1) {
+                createdNetwork = network.create4(options);
+            } else if (process.argv.indexOf('net5') > -1) {
+                createdNetwork = network.create5(options);
+            } else if (process.argv.indexOf('net6') > -1) {
+                createdNetwork = network.create6(options);
+            } else if (process.argv.indexOf('net7') > -1) {
+                createdNetwork = network.create7(options);
+            } else if (process.argv.indexOf('net8') > -1) {
+                createdNetwork = network.create8(options);
+            } else {
+                createdNetwork = network.create(options);       
+            }
+            createdNetwork.initialise();
+            createdNetwork.train(trainingSet, validationSet);
+            var test, predicted, actual,
+                differenceSquared = 0, differenceOverActualSquared = 0, errorSum = 0;
+            for(var i = 0; i < testingSet[0].length; i++) {
+                test = getOutputlessSet(testingSet, i),
+                predicted = createdNetwork.solve(test.inputSet);
+                //log(process.argv[2] + '-testing.csv', test, predicted);
+                actual = test.outputSet;
+                differenceSquared += Math.pow(predicted - actual, 2);
+                differenceOverActualSquared += Math.pow((predicted - actual / actual), 2);
+                errorSum += Math.abs(predicted - actual);
+            }
+            var averageError = (errorSum / testingSet[0].length),
+                rmseError = Math.sqrt(differenceSquared / testingSet[0].length),
+                msreError = (1 / trainingSet[0].length) * differenceOverActualSquared,
+                line = momentum + ',' + learningStep + ',' + averageError + ',' + rmseError + ',' + msreError;
+            //console.log('Average Error: ' + averageError);
+            //console.log('RMSE Error: ' + rmseError);
+            //console.log('MSRE Error: ' + msreError);
+            console.log('Momentum: ' + momentum + ' | LearningStep: ' + learningStep + ' DONE')
+            log('selectionData/learningMomentum.csv', {inputSet: [], outputSet: []}, line);
         }
-        createdNetwork.initialise();
-        createdNetwork.train(trainingSet, validationSet);
-        var test, predicted, actual,
-            differenceSquared = 0, differenceOverActualSquared = 0, errorSum = 0;
-        for(var i = 0; i < testingSet[0].length; i++) {
-            test = getOutputlessSet(testingSet, i),
-            predicted = createdNetwork.solve(test.inputSet);
-            //log(process.argv[2] + '-testing.csv', test, predicted);
-            actual = test.outputSet;
-            differenceSquared += Math.pow(predicted - actual, 2);
-            differenceOverActualSquared += Math.pow((predicted - actual / actual), 2);
-            errorSum += Math.abs(predicted - actual);
-        }
-        var averageError = (errorSum / testingSet[0].length),
-            rmseError = Math.sqrt(differenceSquared / testingSet[0].length),
-            msreError = (1 / trainingSet[0].length) * differenceOverActualSquared,
-            line = learningStep + ',' + averageError + ',' + rmseError + ',' + msreError;
-        console.log('Average Error: ' + averageError);
-        console.log('RMSE Error: ' + rmseError);
-        console.log('MSRE Error: ' + msreError);
-        log('learningStepData/momentum.csv', {inputSet: [], outputSet: []}, line);
     }
 }
