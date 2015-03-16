@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "mathjs": "^1.3.0",
-    "node-ann": "0.2.0",
+    "node-ann": "0.2.2",
     "node-data-preprocessing": "^1.2.2"
   },
   "private": true
