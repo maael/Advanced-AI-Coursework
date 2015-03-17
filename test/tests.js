@@ -25,7 +25,7 @@ describe('Coursework', function() {
 	});
 	describe('#multipleSimpleRegression', function() {
 		describe('testing', function() {
-			descrive('#solve', function() {
+			describe('#solve', function() {
 
 			});
 		});
