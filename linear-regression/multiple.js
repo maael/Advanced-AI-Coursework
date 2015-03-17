@@ -1,5 +1,5 @@
 var math = require('mathjs');
-var simpleLinearRegression = function(options, data) {
+var multipleLinearRegression = function(options, data) {
     options = options || {};
     options.errorValue = options.errorValue || 0;
     var beta = [];
@@ -45,4 +45,4 @@ var simpleLinearRegression = function(options, data) {
     };
 };
 
-module.exports = simpleLinearRegression;
+module.exports = multipleLinearRegression;

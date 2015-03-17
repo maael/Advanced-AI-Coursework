@@ -54,7 +54,7 @@ var preprocess = require('node-data-preprocessing'),
     },
     log = require('./log'),
     network = require('./network/network'),
-    regression = require('./linear-regression/simple');
+    regression = require('./linear-regression/multiple');
 function getOutputlessSet(set, setNumber) {
     var example = {inputSet: [], outputSet: []};
     for(var i = 0; i < (set.length - 1); i++) {
@@ -66,25 +66,31 @@ function getOutputlessSet(set, setNumber) {
 if(process.argv.indexOf('regression') > -1) {
     var regress = regression({}, trainingSet);
     regress.calculate();
-    var test, predicted = [], actual = [], 
-        differenceSquared = 0, differenceOverActualSquared = 0, errorSum = 0;
+    var test, predicted = [], actual = [],
+        differenceSum = 0, differenceSquared = 0, differenceOverActualSquared = 0, errorSum = 0;
     for(var i = 0; i < testingSet[0].length; i++) {
         test = getOutputlessSet(validationSet, i),
         predicted.push(regress.solve(test.inputSet));
         actual.push(test.outputSet);
         difference = predicted[i] - actual[i];
         differenceSquared += Math.pow(difference, 2);
-        differenceSquared += Math.pow(difference, 2);
         differenceOverActualSquared += Math.pow((difference / actual[i]), 2);
+        differenceSum += difference; 
         errorSum += Math.abs(difference);
+        var line = predicted[i] + ',' + actual[i];
+        log('selectionData/regression-final-errors.csv', {inputSet: [], outputSet: []}, line);
     }        
     for(var i = 0; i < testingSet[0].length; i++) {
-        sst = Math.pow(((predicted[i] - actual[i]) - (differenceSum / n)), 2);
+        sst = Math.pow(((predicted[i] - actual[i]) - (differenceSum / testingSet[0].length)), 2);
         ssr = Math.pow((predicted[i] - actual[i]), 2);
     }
-    console.log('Average Error: ' + (errorSum / testingSet[0].length));
-    console.log('RMSE Error: ' + Math.sqrt(differenceSquared / testingSet[0].length));
-    console.log('MSRE Error: ' + (1 / trainingSet[0].length) * differenceOverActualSquared);
+    var averageError = (errorSum / testingSet[0].length),
+        rmseError = Math.sqrt(differenceSquared / testingSet[0].length),
+        msreError = (1 / trainingSet[0].length) * differenceOverActualSquared,
+        ceError = 1 - (differenceSquared / sst),
+        rsqError = 1 - Math.pow((ssr / Math.sqrt(sst)), 2),
+        line = averageError + ',' + rmseError + ',' + msreError + ',' + rsqError;
+    log('selectionData/regression-final-assessment.csv', {inputSet: [], outputSet: []}, line);
 } else {
     var loops = (process.argv.length > 3) ? process.argv[3] : 1,
         createdNetwork,
@@ -121,7 +127,7 @@ if(process.argv.indexOf('regression') > -1) {
             createdNetwork.initialise();
             createdNetwork.train(trainingSet, validationSet);
             var test, predicted = [], actual = [],
-                differenceSquared = 0, differenceOverActualSquared = 0, errorSum = 0;
+                differenceSum = 0, differenceSquared = 0, differenceOverActualSquared = 0, errorSum = 0;
             for(var i = 0; i < testingSet[0].length; i++) {
                 test = getOutputlessSet(testingSet, i),
                 predicted.push(createdNetwork.solve(test.inputSet));
@@ -130,10 +136,13 @@ if(process.argv.indexOf('regression') > -1) {
                 differenceSquared += Math.pow(difference, 2);
                 differenceSquared += Math.pow(difference, 2);
                 differenceOverActualSquared += Math.pow((difference / actual[i]), 2);
+                differenceSum += difference; 
                 errorSum += Math.abs(difference);
+                var line = predicted[i] + ',' + actual[i];
+                log('selectionData/network-final-errors.csv', {inputSet: [], outputSet: []}, line);
             }        
             for(var i = 0; i < testingSet[0].length; i++) {
-                sst = Math.pow(((predicted[i] - actual[i]) - (differenceSum / n)), 2);
+                sst = Math.pow(((predicted[i] - actual[i]) - (differenceSum / testingSet[0].length)), 2);
                 ssr = Math.pow((predicted[i] - actual[i]), 2);
             }
             var averageError = (errorSum / testingSet[0].length),
@@ -141,12 +150,8 @@ if(process.argv.indexOf('regression') > -1) {
                 msreError = (1 / trainingSet[0].length) * differenceOverActualSquared,
                 ceError = 1 - (differenceSquared / sst),
                 rsqError = 1 - Math.pow((ssr / Math.sqrt(sst)), 2),
-                line = momentum + ',' + learningStep + ',' + averageError + ',' + rmseError + ',' + msreError + ',' + ceError + ',' + rsqError;
-            //console.log('Average Error: ' + averageError);
-            //console.log('RMSE Error: ' + rmseError);
-            //console.log('MSRE Error: ' + msreError);
-            //console.log('Momentum: ' + momentum + ' | LearningStep: ' + learningStep + ' DONE')
-            log('selectionData/networkFinal.csv', {inputSet: [], outputSet: []}, line);
+                line = averageError + ',' + rmseError + ',' + msreError + ',' + rsqError;
+            log('selectionData/network-final-assessment.csv', {inputSet: [], outputSet: []}, line);
         }
     }
 }
